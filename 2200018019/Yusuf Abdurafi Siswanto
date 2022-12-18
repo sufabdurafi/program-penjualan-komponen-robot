@@ -1,0 +1,187 @@
+.model small
+.code
+org 100h
+start:
+    jmp mulai
+nama    db 13,10, 'Nama anda     :$'
+nim     db 13,10, 'Nim anda      :$'
+lanjut  db 13,10, 'Continue press y to continue >>>>>>>>>>>> $'
+tampung_name    db 30,?,30 dup?
+tampung_nim     db 13,?,13 dup?
+
+a db 01
+b db 02
+c db 03
+d db 04
+e db 05
+f db 06
+j dw 15
+
+daftar db 13,10, '+---------------------------------------------+'
+       db 13,10, '|     Daftar komponen robot yang tersedia     |'
+       db 13,10, '+---------------------------------------------+'  
+       db 13,10, '|                    komponen                 |'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|No | Jenis        |Merek      | Harga        |'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|01 | Arduino Uno  |Uno        | Rp    100.000|'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|02 | Sensor rfdi  |Uno        | Rp     14.000|'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|03 | Sensor HCSR  |Uno        | Rp     15.000|'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|04 | MOTOR DRONE  |SKY TEAM   | Rp  1.000.000|'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|05 | DYNAMo       |ARA        | Rp    500.000|'
+       db 13,10, '+---------------------------------------------+'
+       db 13,10, '|06 | ESC          |ARA        | Rp    200.000|'
+       db 13,10, '+---------------------------------------------+','$'
+       
+
+error           db 13,10,'The code is wrong $'
+pilih_kmpnen    db 13,10,'Put number/code that you use: $'
+success         db 13,10,'Congratulations you success   $'
+
+        mulai:
+        mov ah,09h
+        lea dx,nama
+        int 21h
+        mov ah,0ah
+        lea dx,tampung_name
+        int 21h
+        push dx
+        
+        mov ah,09h
+        lea dx,nim
+        int 21h
+        mov ah,0ah
+        lea dx,tampung_nim
+        int 21h
+        push dx
+        
+        mov ah,09h
+        mov dx,offset daftar
+        int 21h
+        mov ah,09h
+        mov dx,offset lanjut
+        int 21h
+        mov ah,01h
+        int 21h
+        cmp al,'y'
+        jmp proses
+        jne error_msg
+        
+error_msg:
+        mov ah,09h
+        mov dx,offset error
+        int 21h
+        int 20h
+    
+proses:
+       mov ah,09h
+       mov dx,offset pilih_kmpnen
+       int 21h
+       
+       mov ah,1
+       int 21h
+       mov bh,al
+       mov ah,1
+       int 21h
+       mov bl,al
+       cmp bh,'0'
+       cmp bl,'1'
+       je hasil1
+       
+       cmp bh,'0'
+       cmp bl,'2'
+       je hasil2
+       
+       cmp bh,'0'
+       cmp bl,'3'
+       je hasil3
+       
+       cmp bh,'0'
+       cmp bl,'4'
+       je hasil4
+       
+       cmp bh,'0'
+       cmp bl,'5'
+       je hasil5
+       
+       cmp bh,'0'
+       cmp bl,'6'
+       je hasil6
+       
+       jne error_msg
+        
+;------------------------------------------------------
+
+hasil1:
+       mov ah,09h
+       lea dx,teks1
+       int 21h
+       int 20h
+       
+hasil2:
+       mov ah,09h
+       lea dx,teks2
+       int 21h
+       int 20h         
+                
+hasil3:
+       mov ah,09h
+       lea dx,teks3
+       int 21h
+       int 20h
+
+hasil4:
+       mov ah,09h
+       lea dx,teks4
+       int 21h
+       int 20h
+      
+hasil5:
+       mov ah,09h
+       lea dx,teks5
+       int 21h
+       int 20h
+          
+hasil6:
+       mov ah,09h
+       lea dx,teks6
+       int 21h
+       int 20h
+       
+;-----------------------------------------------------
+
+teks1 db 13,10,'Anda memilih Arduino Uno'
+      db 13,10,'Merek Uno'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 100.000'
+      db 13,10,'terima kasih $'
+      
+teks2 db 13,10,'Anda memilih sensor rfdi'
+      db 13,10,'Merek Uno'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 14.000'
+      db 13,10,'terima kasih $'   
+    
+teks3 db 13,10,'Anda memilih sensor hcsr'
+      db 13,10,'Merek Uno'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 100.000'
+      db 13,10,'terima kasih $'  
+      
+teks4 db 13,10,'Anda memilih motor drone'
+      db 13,10,'Merek sky team'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 100.000'
+      db 13,10,'terima kasih $' 
+      
+teks5 db 13,10,'Anda memilih dynamo'
+      db 13,10,'Merek ara'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 100.000'
+      db 13,10,'terima kasih $' 
+      
+teks6 db 13,10,'Anda memilih esc'
+      db 13,10,'Merek ara'
+      db 13,10,'Total Harga Yang anda harus bayar : rp 100.000'
+      db 13,10,'terima kasih $' 
+ 
+end start
